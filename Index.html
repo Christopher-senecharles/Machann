@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lakay Sèvis Dijital — Tous services dès 500 Gourdes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ BASE ============ */
+:root{
+  --ink:#10153F; --paper:#F6F1E7; --blue:#0026E0; --red:#E6203C;
+  --yellow:#FFC93C; --green:#17A34A;
+  --disp:'Anton',sans-serif; --body:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body); color:var(--ink); background:var(--paper);
+  background-image:radial-gradient(rgba(16,21,63,.09) 1.2px, transparent 1.2px);
+  background-size:26px 26px; overflow-x:hidden;
+}
+::selection{background:var(--yellow); color:var(--ink)}
+img{max-width:100%}
+a{color:inherit}
+button{font-family:inherit; cursor:pointer}
+input,textarea,select{font-family:inherit; font-size:.95rem}
+h1,h2,h3{line-height:1.02}
+.disp{font-family:var(--disp); letter-spacing:.02em; text-transform:uppercase}
+.wrap{max-width:1180px; margin:0 auto; padding:0 22px}
+section{padding:84px 0; position:relative}
+:focus-visible{outline:3px solid var(--blue); outline-offset:2px}
+
+/* décor vivant */
+.deco{position:fixed; z-index:0; pointer-events:none; font-size:2rem; opacity:.16; filter:saturate(.8)}
+.deco.d1{top:14%; left:3%; color:var(--red);  animation:spin 22s linear infinite}
+.deco.d2{top:64%; right:4%; color:var(--blue); animation:spin 30s linear infinite reverse}
+.deco.d3{bottom:8%; left:8%; color:var(--yellow); animation:bob 7s ease-in-out infinite}
+.deco.d4{top:36%; right:12%; color:var(--ink); animation:bob 9s ease-in-out infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(-18px)}}
+
+/* ============ TICKER ============ */
+.ticker{background:var(--ink); color:var(--yellow); overflow:hidden; border-bottom:3px solid var(--ink); position:relative; z-index:5}
+.ticker-track{display:flex; gap:0; white-space:nowrap; width:max-content; animation:tick 36s linear infinite}
+.ticker-track span{padding:.55rem 1.4rem; font-family:var(--mono); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase}
+.ticker-track span b{color:#fff}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ============ HEADER ============ */
+.topbar{position:sticky; top:0; z-index:60; background:var(--paper); border-bottom:3px solid var(--ink)}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-top:.7rem; padding-bottom:.7rem}
+.brand{display:flex; align-items:center; gap:.7rem; text-decoration:none}
+.brand-mark{width:42px; height:42px; background:var(--blue); color:#fff; display:grid; place-items:center; font-family:var(--disp); font-size:1.25rem; border:2px solid var(--ink); box-shadow:3px 3px 0 var(--ink); transform:rotate(-4deg)}
+.brand-txt b{font-family:var(--disp); font-size:1.1rem; letter-spacing:.04em; display:block}
+.brand-txt small{font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--red)}
+nav.mainnav{display:flex; gap:1.3rem; align-items:center}
+nav.mainnav a{text-decoration:none; font-weight:500; font-size:.92rem; position:relative; padding:.2rem 0}
+nav.mainnav a::after{content:''; position:absolute; left:0; bottom:-2px; width:0; height:3px; background:var(--red); transition:width .25s}
+nav.mainnav a:hover::after{width:100%}
+.navlock{font-family:var(--mono); font-size:.7rem; padding:.35rem .7rem; border:2px solid var(--ink); background:var(--yellow); box-shadow:2px 2px 0 var(--ink); letter-spacing:.06em}
+body.unlocked .navlock{background:var(--green); color:#fff}
+@media(max-width:860px){nav.mainnav a:not(.keep){display:none}}
+
+/* ============ BOUTONS GÉNÉRIQUES ============ */
+.btn{display:inline-flex; align-items:center; gap:.55rem; padding:.85rem 1.5rem; border:2px solid var(--ink);
+  background:#fff; color:var(--ink); font-weight:700; font-size:.95rem; letter-spacing:.02em;
+  box-shadow:5px 5px 0 var(--ink); transition:transform .18s, box-shadow .18s; text-decoration:none}
+.btn:hover{transform:translate(-2px,-2px); box-shadow:8px 8px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px); box-shadow:2px 2px 0 var(--ink)}
+.btn-yellow{background:var(--yellow)} .btn-red{background:var(--red); color:#fff}
+.btn-blue{background:var(--blue); color:#fff} .btn-green{background:var(--green); color:#fff}
+.btn-ghost{background:transparent}
+.btn-sm{padding:.5rem .9rem; font-size:.82rem; box-shadow:3px 3px 0 var(--ink)}
+.btn[disabled]{opacity:.55; cursor:default; transform:none!important; box-shadow:3px 3px 0 var(--ink)!important}
+
+/* ============ MASTHEAD ============ */
+.masthead{padding:76px 0 84px; position:relative; z-index:1}
+.masthead .wrap{display:grid; grid-template-columns:1.15fr .85fr; gap:3rem; align-items:center}
+.kicker{display:inline-flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.16em;
+  text-transform:uppercase; background:#fff; border:2px solid var(--ink); padding:.4rem .8rem; box-shadow:3px 3px 0 var(--ink); margin-bottom:1.4rem}
+.kicker i{width:9px;height:9px;background:var(--red);border-radius:50%;display:inline-block;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+h1.mast{font-family:var(--disp); font-size:clamp(2.9rem,7vw,5.4rem); text-transform:uppercase; line-height:.95}
+h1.mast .l2{color:transparent; -webkit-text-stroke:2.5px var(--ink); display:block}
+h1.mast .l3{display:inline-block; background:var(--yellow); padding:.05em .18em; box-shadow:6px 6px 0 var(--ink); transform:rotate(-1.5deg); border:2px solid var(--ink)}
+.mast p.lead{margin:1.5rem 0 1.8rem; font-size:1.08rem; max-width:34rem; line-height:1.6}
+.mast p.lead b{background:linear-gradient(transparent 55%, var(--yellow) 55%); padding:0 .15em}
+.mast-cta{display:flex; gap:1rem; flex-wrap:wrap}
+.statstrip{margin-top:2.4rem; border:2px solid var(--ink); background:#fff; box-shadow:5px 5px 0 var(--ink); display:flex; flex-wrap:wrap}
+.statstrip div{flex:1; min-width:130px; padding:.8rem 1rem; border-right:2px dashed var(--ink)}
+.statstrip div:last-child{border-right:0}
+.statstrip b{font-family:var(--disp); font-size:1.3rem; display:block}
+.statstrip small{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75}
+
+/* ticket */
+.ticket{background:#fff; border:2px solid var(--ink); box-shadow:9px 9px 0 var(--ink); transform:rotate(1.6deg); position:relative; animation:tfloat 6s ease-in-out infinite}
+@keyframes tfloat{50%{transform:rotate(1.6deg) translateY(-8px)}}
+.ticket::before,.ticket::after{content:''; position:absolute; width:26px; height:26px; background:var(--paper); border:2px solid var(--ink); border-radius:50%; top:50%}
+.ticket::before{left:-15px} .ticket::after{right:-15px}
+.ticket-head{background:var(--ink); color:var(--yellow); font-family:var(--disp); letter-spacing:.06em; padding:.8rem 1.2rem; display:flex; justify-content:space-between; align-items:center; font-size:1.05rem}
+.ticket-head span{font-family:var(--mono); font-size:.68rem; color:#fff}
+.ticket-body{padding:1.2rem 1.4rem}
+.trow{display:flex; justify-content:space-between; align-items:center; padding:.65rem 0; border-bottom:2px dashed rgba(16,21,63,.25); font-size:.92rem}
+.trow:last-of-type{border-bottom:0}
+.trow .lab{font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; opacity:.7}
+.trow .val{font-weight:700; font-family:var(--mono)}
+#clockEl{font-family:var(--disp); font-size:1.9rem; letter-spacing:.06em; color:var(--blue)}
+.live-dot{display:inline-flex; align-items:center; gap:.45rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; color:var(--green); font-weight:700}
+.live-dot i{width:10px;height:10px;border-radius:50%;background:var(--green); animation:pulse 1.4s infinite}
+.barcode{height:38px; margin:1rem 1.4rem 1.2rem; background:repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 6px,var(--ink) 6px 8px,transparent 8px 13px)}
+.ticket-foot{padding:0 1.4rem 1.2rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; text-align:center; opacity:.6}
+
+/* ============ EN-TÊTES DE SECTION ============ */
+.sec-head{display:flex; align-items:center; gap:1.2rem; margin-bottom:2.6rem; flex-wrap:wrap}
+.sec-num{font-family:var(--disp); font-size:2.6rem; color:transparent; -webkit-text-stroke:2px var(--ink)}
+.sec-head h2{font-family:var(--disp); font-size:clamp(1.9rem,4vw,3rem); text-transform:uppercase}
+.sec-head .rule{flex:1; min-width:80px; height:5px; background:repeating-linear-gradient(90deg,var(--ink) 0 14px, transparent 14px 22px)}
+.sec-tag{font-family:var(--mono); font-size:.68rem; background:var(--red); color:#fff; padding:.35rem .7rem; letter-spacing:.1em; transform:rotate(2deg); border:2px solid var(--ink)}
+
+/* ============ SERVICES ============ */
+.cat{margin-bottom:3rem}
+.cat-bar{display:inline-flex; align-items:center; gap:.7rem; background:var(--ink); color:#fff; padding:.55rem 1.2rem; margin-bottom:1.3rem;
+  font-family:var(--disp); letter-spacing:.08em; text-transform:uppercase; font-size:1rem; box-shadow:5px 5px 0 rgba(16,21,63,.25); transform:rotate(-.6deg)}
+.cat-bar em{font-family:var(--mono); font-style:normal; font-size:.65rem; background:var(--yellow); color:var(--ink); padding:.2rem .5rem; letter-spacing:.1em}
+.tiles{display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:1.15rem}
+.tile{position:relative; background:#fff; border:2px solid var(--ink); padding:1.15rem 1.1rem 1.05rem; text-align:left;
+  box-shadow:4px 4px 0 var(--ink); transition:transform .2s, box-shadow .2s; display:flex; flex-direction:column; gap:.45rem; min-height:150px}
+.tile:hover{transform:translate(-3px,-3px) rotate(-.5deg); box-shadow:9px 9px 0 var(--ink); z-index:2}
+.tile:active{transform:translate(1px,1px); box-shadow:2px 2px 0 var(--ink)}
+.tile .num{position:absolute; top:.6rem; right:.75rem; font-family:var(--mono); font-size:.62rem; opacity:.5; letter-spacing:.1em}
+.tile .ico{font-size:1.85rem; line-height:1; filter:drop-shadow(2px 2px 0 rgba(16,21,63,.18)); transition:transform .25s}
+.tile:hover .ico{transform:scale(1.15) rotate(-6deg)}
+.tile h3{font-family:var(--disp); font-size:1.02rem; letter-spacing:.03em; text-transform:uppercase}
+.tile p{font-size:.78rem; opacity:.72; line-height:1.4; flex:1}
+.tile .lock{position:absolute; bottom:.65rem; right:.75rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.08em;
+  padding:.2rem .5rem; border:1.5px solid var(--ink); background:var(--paper)}
+body.unlocked .tile .lock{background:var(--green); color:#fff; border-color:var(--green)}
+.tile.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.tile.pop{animation:pop .5s both}
+@keyframes pop{0%{transform:scale(.9); opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1); opacity:1}}
+
+/* ============ TARIFS ============ */
+#tarifs{background:var(--ink); color:#fff}
+#tarifs .wrap{display:grid; grid-template-columns:1fr 1.2fr; gap:3rem; align-items:start}
+.pricebox{background:var(--yellow); color:var(--ink); border:3px solid var(--ink); box-shadow:10px 10px 0 var(--red); padding:2.4rem 2.2rem; transform:rotate(-1.2deg)}
+.pricebox .from{font-family:var(--mono); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase}
+.pricebox .big{font-family:var(--disp); font-size:clamp(4rem,9vw,6.5rem); line-height:1}
+.pricebox .big small{font-size:.35em; vertical-align:super}
+.pricebox ul{list-style:none; margin-top:1.4rem}
+.pricebox li{padding:.45rem 0; border-bottom:2px dashed rgba(16,21,63,.3); font-size:.95rem; display:flex; gap:.5rem}
+.pricebox li:last-child{border:0}
+.steps h2{font-family:var(--disp); font-size:clamp(1.8rem,3.5vw,2.6rem); text-transform:uppercase; margin-bottom:1.6rem}
+.steps h2 span{color:var(--yellow)}
+.step{display:flex; gap:1.1rem; background:rgba(255,255,255,.06); border:2px solid rgba(255,255,255,.25); padding:1.1rem 1.3rem; margin-bottom:.9rem; transition:transform .2s, background .2s}
+.step:hover{transform:translateX(8px); background:rgba(255,255,255,.11)}
+.step b.no{font-family:var(--disp); font-size:1.7rem; color:var(--yellow)}
+.step h3{font-size:1.02rem; margin-bottom:.25rem; text-transform:uppercase; letter-spacing:.03em}
+.step p{font-size:.87rem; opacity:.8; line-height:1.5}
+.paybadges{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.4rem}
+.paybadges span{font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; border:2px solid var(--yellow); color:var(--yellow); padding:.4rem .8rem}
+.pwnote{margin-top:1.6rem; font-family:var(--mono); font-size:.75rem; background:var(--red); padding:.9rem 1.1rem; border:2px solid #fff; box-shadow:5px 5px 0 rgba(0,0,0,.35)}
+
+/* ============ CONTACT ============ */
+#contact .wrap{display:grid; grid-template-columns:1.2fr .8fr; gap:3rem; align-items:center}
+.contact-big h2{font-family:var(--disp); font-size:clamp(2rem,4.5vw,3.4rem); text-transform:uppercase; line-height:1}
+.contact-big h2 span{color:var(--red)}
+.contact-big p{margin:1.2rem 0 1.8rem; max-width:30rem; line-height:1.6}
+.wabtn{display:inline-flex; align-items:center; gap:.7rem; background:var(--green); color:#fff; text-decoration:none; font-weight:700;
+  font-size:1.05rem; padding:1rem 1.8rem; border:2px solid var(--ink); box-shadow:6px 6px 0 var(--ink); transition:transform .18s, box-shadow .18s}
+.wabtn:hover{transform:translate(-2px,-2px); box-shadow:9px 9px 0 var(--ink)}
+.contact-card{background:#fff; border:2px solid var(--ink); box-shadow:7px 7px 0 var(--ink); padding:1.6rem}
+.contact-card h3{font-family:var(--disp); text-transform:uppercase; margin-bottom:1rem}
+.contact-card .trow{font-size:.86rem}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink); color:#fff; padding:2.2rem 0; border-top:6px solid var(--red)}
+footer .wrap{display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap}
+footer .foot-brand{font-family:var(--disp); letter-spacing:.06em; font-size:1.15rem}
+footer .foot-brand span{color:var(--yellow)}
+footer small{font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; opacity:.7; display:block; margin-top:.3rem}
+
+/* ============ MODALE ============ */
+#modal{position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center; padding:1.2rem; background:rgba(16,21,63,.66); backdrop-filter:blur(2px)}
+#modal.open{display:flex}
+.m-panel{background:var(--paper); border:3px solid var(--ink); box-shadow:12px 12px 0 rgba(0,0,0,.35); width:min(1020px,100%); max-height:92vh; display:flex; flex-direction:column; animation:mIn .28s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes mIn{from{transform:translateY(26px) scale(.97); opacity:0}}
+.m-head{background:var(--ink); color:#fff; padding:.85rem 1.2rem; display:flex; align-items:center; gap:.8rem}
+.m-head .m-ico{font-size:1.3rem}
+.m-head h3{font-family:var(--disp); letter-spacing:.05em; text-transform:uppercase; font-size:1.1rem; flex:1}
+.m-head .m-badge{font-family:var(--mono); font-size:.62rem; background:var(--yellow); color:var(--ink); padding:.25rem .55rem; letter-spacing:.1em}
+.m-close{background:var(--red); color:#fff; border:2px solid #fff; width:34px; height:34px; font-size:1.05rem; font-weight:700; transition:transform .15s}
+.m-close:hover{transform:rotate(90deg)}
+.m-body{padding:1.3rem; overflow:auto}
+
+/* formule + aperçu */
+.tool-grid{display:grid; grid-template-columns:340px 1fr; gap:1.2rem; align-items:start}
+@media(max-width:820px){.tool-grid{grid-template-columns:1fr}}
+.tform{display:flex; flex-direction:column; gap:.75rem; background:#fff; border:2px solid var(--ink); padding:1.1rem; box-shadow:4px 4px 0 rgba(16,21,63,.2)}
+.tform h4{font-family:var(--disp); text-transform:uppercase; font-size:.92rem; letter-spacing:.06em; border-bottom:2px solid var(--yellow); padding-bottom:.4rem}
+.fld{display:flex; flex-direction:column; gap:.25rem}
+.fld span{font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; opacity:.7}
+.fld input,.fld select,.fld textarea{border:2px solid var(--ink); background:var(--paper); padding:.55rem .65rem; transition:box-shadow .15s}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none; box-shadow:3px 3px 0 var(--blue)}
+.tform .hint{font-size:.72rem; opacity:.65; line-height:1.45}
+.actions{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:1.1rem}
+.preview{min-height:340px; display:flex; flex-direction:column}
+.preview-empty{flex:1; border:2px dashed rgba(16,21,63,.35); display:grid; place-items:center; color:rgba(16,21,63,.55); font-family:var(--mono); font-size:.75rem; letter-spacing:.1em; text-align:center; padding:2rem}
+.preview .ph-empty{border:2px dashed rgba(16,21,63,.35); padding:2rem; text-align:center; color:rgba(16,21,63,.5); font-family:var(--mono); font-size:.75rem}
+
+/* ============ FEUILLE DOCUMENT (A4) ============ */
+.sheet{background:#fff; border:2px solid var(--ink); box-shadow:5px 5px 0 rgba(16,21,63,.2); color:#182048;
+  font-family:Georgia,'Times New Roman',serif; font-size:12.5px; line-height:1.55; width:100%; max-width:660px; margin:0 auto; padding:2.4rem 2.6rem}
+.sheet .doc-head{text-align:center; border-bottom:3px double #182048; padding-bottom:.7rem; margin-bottom:1rem}
+.sheet .doc-head h1{font-size:1.35rem; letter-spacing:.08em; text-transform:uppercase}
+.sheet .doc-head small{font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; opacity:.7}
+.sheet h2.sec{font-family:var(--body); font-size:.82rem; letter-spacing:.18em; text-transform:uppercase; border-bottom:2px solid var(--yellow); padding-bottom:.15rem; margin:1.1rem 0 .5rem; font-weight:700}
+.sheet .contact-line{font-size:.8rem; opacity:.85}
+.sheet .exp{margin-bottom:.6rem} .sheet .exp b{font-size:.95rem}
+.sheet .sig{display:flex; justify-content:space-between; margin-top:2.4rem; gap:2rem}
+.sheet .sig div{flex:1; text-align:center}
+.sheet .sig .line{border-top:1.5px solid #182048; margin-top:3.2rem; padding-top:.3rem; font-size:.8rem}
+.sheet table{width:100%; border-collapse:collapse; margin:.8rem 0}
+.sheet th,.sheet td{border:1.5px solid #182048; padding:.4rem .55rem; text-align:left; font-size:.82rem}
+.sheet th{background:#f2eee2; font-family:var(--body); text-transform:uppercase; font-size:.68rem; letter-spacing:.08em}
+.sheet .tot td{font-weight:700; background:#fff7df}
+.sheet .right{text-align:right}
+.sheet p{margin:.5rem 0}
+.sheet .justify{text-align:justify}
+/* carte de visite */
+.bcard{width:340px; height:195px; padding:1.15rem 1.3rem; border:2px solid var(--ink); box-shadow:6px 6px 0 rgba(16,21,63,.25); margin:0 auto 1rem; display:flex; flex-direction:column; justify-content:space-between; font-family:var(--body)}
+.bcard .bn{font-family:var(--disp); font-size:1.35rem; letter-spacing:.04em; text-transform:uppercase}
+.bcard .bt{font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; opacity:.85}
+.bcard .bc{font-size:.72rem; line-height:1.7; font-family:var(--mono)}
+.bcard-back{justify-content:center; align-items:center; text-align:center; gap:.3rem}
+.bcard-back .logo{font-family:var(--disp); font-size:2rem}
+.pal-row{display:flex; gap:.5rem; margin:.3rem 0 .8rem}
+.pal-dot{width:30px; height:30px; border:2px solid var(--ink); cursor:pointer; transition:transform .15s}
+.pal-dot:hover,.pal-dot.on{transform:scale(1.18); box-shadow:2px 2px 0 var(--ink)}
+
+/* outils API */
+.api-panel{background:#fff; border:2px solid var(--ink); box-shadow:4px 4px 0 rgba(16,21,63,.2); padding:1.3rem}
+.big-metric{font-family:var(--disp); font-size:3.4rem; color:var(--blue); line-height:1}
+.rate-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:.7rem; margin-top:1rem}
+.rate-cell{border:2px solid var(--ink); padding:.7rem .8rem; background:var(--paper); transition:transform .15s}
+.rate-cell:hover{transform:translateY(-3px)}
+.rate-cell b{font-family:var(--mono); font-size:1.05rem; display:block}
+.rate-cell small{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; opacity:.65}
+.quote-box{font-size:1.25rem; line-height:1.55; font-style:italic; border-left:6px solid var(--yellow); padding:.4rem 0 .4rem 1.2rem; margin:1rem 0}
+.quote-auth{font-family:var(--mono); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; opacity:.7}
+.skel{background:linear-gradient(90deg,#ece7d8 25%,#f8f4ea 50%,#ece7d8 75%); background-size:200% 100%; animation:sk 1.2s infinite; height:1rem; margin:.4rem 0; border-radius:2px}
+@keyframes sk{to{background-position:-200% 0}}
+.photo-stage{display:flex; gap:1.3rem; flex-wrap:wrap; align-items:flex-start}
+#photoCv{border:2px solid var(--ink); box-shadow:5px 5px 0 rgba(16,21,63,.25); background:#fff}
+.qr-frame{background:#fff; border:2px solid var(--ink); box-shadow:6px 6px 0 rgba(16,21,63,.25); padding:1rem; display:inline-block}
+.tip-card{font-size:1.1rem; line-height:1.65; background:#fff; border:2px solid var(--ink); border-left:8px solid var(--red); padding:1.3rem; box-shadow:4px 4px 0 rgba(16,21,63,.2)}
+
+/* déverrouillage */
+.unlock-box{text-align:center; padding:1.2rem .6rem}
+.unlock-box .u-lock{font-size:3.2rem; display:inline-block; animation:bob 3s ease-in-out infinite}
+.unlock-box h3{font-family:var(--disp); font-size:1.7rem; text-transform:uppercase; margin:.6rem 0 .3rem}
+.unlock-box p{font-size:.9rem; opacity:.8; max-width:26rem; margin:0 auto 1.2rem; line-height:1.55}
+.pw-row{display:flex; gap:.6rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.1rem}
+#pwInput{font-family:var(--mono); letter-spacing:.25em; text-transform:uppercase; text-align:center; border:2px solid var(--ink); background:#fff; padding:.8rem 1rem; font-size:1rem; width:min(260px,100%)}
+.u-pay{display:inline-flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin-top:.8rem}
+.u-pay span{font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; border:2px solid var(--ink); background:var(--yellow); padding:.35rem .6rem}
+.u-err{color:var(--red); font-family:var(--mono); font-size:.75rem; margin-top:.6rem; min-height:1.1em}
+.shake-it{animation:shake .4s}
+
+/* toasts */
+#toasts{position:fixed; bottom:1.2rem; left:1.2rem; z-index:200; display:flex; flex-direction:column; gap:.6rem}
+.toast{display:flex; gap:.6rem; align-items:center; background:var(--ink); color:#fff; border:2px solid var(--yellow);
+  padding:.7rem 1.1rem; box-shadow:5px 5px 0 rgba(0,0,0,.3); font-size:.86rem; max-width:320px; animation:tIn .3s cubic-bezier(.2,.9,.3,1.3)}
+.toast span{font-size:1.1rem}
+.toast.out{animation:tOut .3s forwards}
+@keyframes tIn{from{transform:translateX(-30px); opacity:0}}
+@keyframes tOut{to{transform:translateX(-30px); opacity:0}}
+
+/* confetti */
+.cf{position:fixed; z-index:300; width:10px; height:14px; pointer-events:none; top:0; left:0}
+
+/* reveal au scroll */
+.rev{opacity:0; transform:translateY(26px); transition:opacity .6s ease, transform .6s ease}
+.rev.in{opacity:1; transform:none}
+
+/* ============ IMPRESSION ============ */
+#printRoot{display:none}
+@media print{
+  body.printing > *:not(#printRoot){display:none !important}
+  body.printing{background:#fff !important}
+  #printRoot{display:block !important}
+  #printRoot .sheet{box-shadow:none; border:none; max-width:100%; padding:.4cm}
+}
+@media(max-width:900px){
+  .masthead .wrap, #tarifs .wrap, #contact .wrap{grid-template-columns:1fr}
+  .ticket{transform:none; margin-top:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- décor flottant -->
+<span class="deco d1">✦</span><span class="deco d2">◆</span>
+<span class="deco d3">✚</span><span class="deco d4">●</span>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- BARRE NAV -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="brand-mark">LS</span>
+      <span class="brand-txt"><b>Lakay Sèvis</b><small>Dijital • Ayiti</small></span>
+    </a>
+    <nav class="mainnav">
+      <a href="#services">Services</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#comment">Comment ça marche</a>
+      <a href="#contact" class="keep">Contact</a>
+      <span class="navlock" id="navLock">🔒 VERROUILLÉ</span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ MASTHEAD ============ -->
+<section class="masthead">
+  <div class="wrap">
+    <div>
+      <span class="kicker"><i></i> BIWO DIJITAL — PÒTOPRENS · 7J/7</span>
+      <h1 class="mast">
+        Tout sèvis<br>dijital ou yo<br>
+        <span class="l2">profesyonèl,</span><br>
+        <span class="l3">dès 500 G</span>
+      </h1>
+      <p class="lead">
+        CV, contrats, lettres officielles, factures, cartes de visite, QR codes, météo et taux du jour…
+        <b>22 boutons, un seul mot de passe.</b> Payez <b>500 gourdes</b>, recevez votre mot de passe sur WhatsApp,
+        et tous les services du site se déverrouillent instantanément.
+      </p>
+      <div class="mast-cta">
+        <button class="btn btn-red" id="heroUnlock">🔓 Obtenir le mot de passe</button>
+        <a class="btn btn-ghost" href="#services">Voir les 22 outils ↓</a>
+      </div>
+      <div class="statstrip">
+        <div><b>22</b><small>Outils prêts</small></div>
+        <div><b>5</b><small>API en direct</small></div>
+        <div><b>500 G</b><small>Mot de passe</small></div>
+        <div><b>PDF+</b><small>Word &amp; impression</small></div>
+      </div>
+    </div>
+
+    <!-- TICKET DE SERVICE (données live) -->
+    <aside class="ticket" aria-label="Ticket de service en direct">
+      <div class="ticket-head">TIKÈ SÈVIS <span>Nº 0500-HTG</span></div>
+      <div class="ticket-body">
+        <div class="trow"><span class="lab">Lè li ye</span><span id="clockEl">--:--:--</span></div>
+        <div class="trow"><span class="lab">Taux USD → HTG</span><span class="val" id="rateWidget">chargement…</span></div>
+        <div class="trow"><span class="lab">Météo PAP</span><span class="val" id="weatherWidget">chargement…</span></div>
+        <div class="trow"><span class="lab">Guichet</span><span class="live-dot"><i></i>OUVERT</span></div>
+      </div>
+      <div class="barcode" aria-hidden="true"></div>
+      <div class="ticket-foot">Konsève tikè ou — valable avec le mot de passe</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head rev">
+      <span class="sec-num">01</span>
+      <h2>Les 22 services</h2>
+      <span class="rule"></span>
+      <span class="sec-tag">DÈS 500 G</span>
+    </div>
+    <div id="tilesWrap"><!-- tuiles injectées par JS --></div>
+    <div style="text-align:center; margin-top:1.6rem" class="rev">
+      <button class="btn btn-yellow" id="svcUnlock">🔐 Déverrouiller les 22 boutons — 500 G</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TARIFS ============ -->
+<section id="tarifs">
+  <div class="wrap">
+    <div class="pricebox rev">
+      <span class="from">Tous les services, à partir de</span>
+      <div class="big">500<small>G</small></div>
+      <ul>
+        <li>✔ Accès aux <b>&nbsp;22 outils&nbsp;</b> avec un seul mot de passe</li>
+        <li>✔ Documents imprimables + téléchargement Word</li>
+        <li>✔ Montants écrits en lettres automatiquement</li>
+        <li>✔ API live : change, météo, citations, QR</li>
+        <li>✔ Support WhatsApp 7j/7</li>
+      </ul>
+    </div>
+    <div class="steps rev" id="comment">
+      <h2>Comment ça marche ? <span>3 étapes.</span></h2>
+      <div class="step"><b class="no">1</b><div>
+        <h3>Payez 500 gourdes</h3>
+        <p>Par MonCash, NatCash ou cash. Le tarif unique qui ouvre tout le site.</p>
+      </div></div>
+      <div class="step"><b class="no">2</b><div>
+        <h3>Recevez votre mot de passe</h3>
+        <p>Envoyé sur WhatsApp en moins de 15 minutes. Gardez-le précieusement.</p>
+      </div></div>
+      <div class="step"><b class="no">3</b><div>
+        <h3>Déverrouillez tout</h3>
+        <p>Le mot de passe sert avec la vingtaine de boutons du site. Créez vos documents sans limite.</p>
+      </div></div>
+      <div class="paybadges">
+        <span>MONCASH</span><span>NATCASH</span><span>CASH</span><span>WHATSAPP</span>
+      </div>
+      <div class="pwnote">⚿ Tous ces services sont disponibles à partir de 500 gourdes — vous obtiendrez le mot de passe pour servir avec la vingtaine de boutons du site.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-big rev">
+      <h2>Prêt ? Payez 500 G,<br><span>travay kòmanse jodi a.</span></h2>
+      <p>Écrivez-nous sur WhatsApp avec la mention <b>« SÈVIS 500 »</b>. Après paiement,
+      vous recevez immédiatement le mot de passe qui débloque tous les outils.</p>
+      <a class="wabtn" id="waLink" href="#" target="_blank" rel="noopener">💬 Payer &amp; recevoir le mot de passe</a>
+    </div>
+    <div class="contact-card rev">
+      <h3>⚡ Guichet express</h3>
+      <div class="trow"><span class="lab">Réponse</span><span class="val">&lt; 15 min</span></div>
+      <div class="trow"><span class="lab">Livraison mot de passe</span><span class="val">WhatsApp</span></div>
+      <div class="trow"><span class="lab">Horaires</span><span class="val">7j/7 · 8h–20h</span></div>
+      <div class="trow"><span class="lab">Paiement</span><span class="val">MonCash / NatCash</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="foot-brand">LAKAY <span>SÈVIS</span> DIJITAL</div>
+      <small>Tout sèvis dijital ou yo — dès 500 gourdes · Pòtoprens, Ayiti 🇭🇹</small>
+    </div>
+    <div style="text-align:right">
+      <small>Mot de passe universel · 22 outils · API publiques gratuites</small>
+      <small>© <span id="yearEl"></span> Lakay Sèvis — Fè ak fyète an Ayiti</small>
+    </div>
+  </div>
+</footer>
+
+<!-- MODALE -->
+<div id="modal" role="dialog" aria-modal="true">
+  <div class="m-panel">
+    <div class="m-head">
+      <span class="m-ico" id="mIco">🛠️</span>
+      <h3 id="mTitle">Outil</h3>
+      <span class="m-badge">500 G ✓</span>
+      <button class="m-close" id="mClose" aria-label="Fermer">✕</button>
+    </div>
+    <div class="m-body" id="mBody"></div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<div id="printRoot"></div>
+
+<script>
+/* =================================================================
+   CONFIG GLOBALE
+================================================================= */
+const WHATSAPP_NUMBER = "509 3135 4041";           // ← METS TON NUMÉRO ICI
+const PASSWORD = "GOURDE500";                    // ← MOT DE PASSE CLIENTS
+const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Bonjou ! Mwen vle peye 500 G la pou mwen jwenn mo de pas SÈVIS la. 🙏")}`;
+document.getElementById('waLink').href = WA_LINK;
+document.getElementById('yearEl').textContent = new Date().getFullYear();
+
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let unlocked = localStorage.getItem('lakay_unlock') === '1';
+window.CACHED_RATES = null;
+
+/* =================================================================
+   TICKER
+================================================================= */
+(function(){
+  const items = ['CRÉATION DE CV','CONTRATS','LETTRES OFFICIELLES','FACTURES','REÇUS','CARTES DE VISITE','QR CODES','MÉTÉO & TAUX LIVE']
+    .map(t => `<span>★ ${t} — <b>DÈS 500 G</b></span>`).join('');
+  $('#tickerTrack').innerHTML = items + items;
+})();
+
+/* =================================================================
+   TOASTS
+================================================================= */
+function toast(msg, icon='✅'){
+  const t = document.createElement('div');
+  t.className = 'toast'; t.innerHTML = `<span>${icon}</span><p>${msg}</p>`;
+  $('#toasts').appendChild(t);
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 320); }, 3800);
+}
+
+/* =================================================================
+   HORLOGE LIVE
+================================================================= */
+setInterval(()=>{
+  const n = new Date();
+  $('#clockEl').textContent = n.toLocaleTimeString('fr-FR');
+}, 1000);
+
+/* =================================================================
+   API : TAUX DE CHANGE (open.er-api.com — gratuit, sans clé)
+================================================================= */
+async function fetchRates(){
+  try{
+    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    const d = await r.json();
+    if(d && d.rates && d.rates.HTG){
+      window.CACHED_RATES = d.rates;
+      $('#rateWidget').textContent = `1 $ = ${d.rates.HTG.toFixed(2)} G`;
+      $('#rateWidget').style.color = 'var(--green)';
+      return d.rates;
+    }
+  }catch(e){}
+  $('#rateWidget').textContent = 'hors ligne';
+  return null;
+}
+fetchRates();
+
+/* =================================================================
+   API : MÉTÉO (open-meteo.com — gratuit, sans clé)
+================================================================= */
+const CITIES = [
+  ['pap','Port-au-Prince',18.539,-72.336],
+  ['cap','Cap-Haïtien',19.758,-72.204],
+  ['gon','Gonaïves',19.447,-72.689],
+  ['cay','Les Cayes',18.193,-73.746],
+  ['jac','Jacmel',18.234,-72.535]
+];
+const WMO = {0:['Ciel dégagé','☀️'],1:['Plutôt dégagé','🌤️'],2:['Partiellement nuageux','⛅'],3:['Couvert','☁️'],
+  45:['Brouillard','🌫️'],48:['Brouillard givrant','🌫️'],51:['Bruine légère','🌦️'],53:['Bruine','🌦️'],55:['Bruine dense','🌧️'],
+  61:['Pluie légère','🌦️'],63:['Pluie','🌧️'],65:['Pluie forte','🌧️'],80:['Averses','🌧️'],81:['Averses fortes','⛈️'],
+  82:['Averses violentes','⛈️'],95:['Orage','⛈️'],96:['Orage + grêle','⛈️'],99:['Orage violent','⛈️']};
+const wmoInfo = c => WMO[c] || ['Variable','🌡️'];
+
+async function fetchWeather(city){
+  const [ ,name,lat,lon ] = city;
+  const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+  const d = await r.json();
+  const w = d.current_weather;
+  const [label, icon] = wmoInfo(w.weathercode);
+  return { name, temp:Math.round(w.temperature), wind:Math.round(w.windspeed), label, icon };
+}
+(async ()=>{
+  try{
+    const w = await fetchWeather(CITIES[0]);
+    $('#weatherWidget').textContent = `${w.temp}°C ${w.icon}`;
+    $('#weatherWidget').style.color = 'var(--blue)';
+  }catch(e){ $('#weatherWidget').textContent = 'hors ligne'; }
+})();
+
+/* =================================================================
+   NOMBRE → LETTRES (français) + formatage gourdes
+================================================================= */
+function numFr(n){
+  n = Math.round(Math.abs(n));
+  if(n === 0) return 'zéro';
+  const U = ['','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
+  const D = ['','','vingt','trente','quarante','cinquante','soixante','','quatre-vingt'];
+  const cents = k => { const c=Math.floor(k/100), r=k%100, s=(c>1?'s':''); let o = c>0 ? (c>1?U[c]+' cent':'cent') + (r===0?s:'') : '';
+    if(r>0) o += (o?' ':'') + tens(r); return o; };
+  function tens(k){
+    if(k<20) return U[k];
+    const d=Math.floor(k/10), u=k%10;
+    if(d===7||d===9){ const base=D[d]; const rest=U[10+u]; return base + (u===1&&d===7?'-et-':'-') + rest; }
+    let s=D[d]; if(u===1&&d!==8) s+='-et-un'; else if(u>0) s+='-'+U[u]; if(d===8&&u===0) s+='s'; return s;
+  }
+  const M=Math.floor(n/1e6), K=Math.floor(n%1e6/1000), R=n%1000; const p=[];
+  if(M) p.push(M>1?numFrSmall(M)+' millions':'un million');
+  if(K) p.push(K===1?'mille':numFrSmall(K)+' mille');
+  if(R) p.push(numFrSmall(R));
+  function numFrSmall(x){ return x<100 ? tens(x) : cents(x); }
+  return p.join(' ');
+}
+const money = n => (Math.round(n)).toLocaleString('fr-FR') + ' G';
+
+/* =================================================================
+   HELPERS DE FORMULAIRES & DOCUMENTS
+================================================================= */
+const f  = (id,label,ph='') => `<label class="fld"><span>${label}</span><input id="f_${id}" placeholder="${esc(ph)}"></label>`;
+const ta = (id,label,ph='',rows=3) => `<label class="fld"><span>${label}</span><textarea id="f_${id}" rows="${rows}" placeholder="${esc(ph)}"></textarea></label>`;
+const sel = (id,label,opts) => `<label class="fld"><span>${label}</span><select id="f_${id}">${opts.map(o=>`<option>${o}</option>`).join('')}</select></label>`;
+const lines = t => String(t||'').split('\n').map(s=>s.trim()).filter(Boolean)
+  .map(s=>s.split('|').map(x=>x.trim()));
+
+function sheetHTML(title, inner){
+  return `<div class="sheet"><div class="doc-head"><h1>${title}</h1><small>Lakay Sèvis Dijital · Généré le ${new Date().toLocaleDateString('fr-FR')}</small></div>${inner}</div>`;
+}
+function printDoc(name){
+  const c = $('#docContent'); if(!c || !c.innerHTML.trim()) return;
+  $('#printRoot').innerHTML = c.innerHTML;
+  document.body.classList.add('printing');
+  const old = document.title; document.title = name;
+  window.print();
+  setTimeout(()=>{ document.body.classList.remove('printing'); document.title = old; }, 700);
+}
+function downloadDoc(name){
+  const c = $('#docContent'); if(!c || !c.innerHTML.trim()) return;
+  const html = '<html xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>'+name+'</title></head><body>' + c.innerHTML + '</body></html>';
+  const blob = new Blob(['\ufeff', html], {type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name + '.doc'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+  toast('Document Word téléchargé', '📥');
+}
+function copyDoc(){
+  const c = $('#docContent'); if(!c || !c.innerText.trim()) return;
+  navigator.clipboard.writeText(c.innerText).then(()=>toast('Texte copié dans le presse-papiers','📋'))
+  .catch(()=>toast('Copie impossible sur cet appareil','⚠️'));
+}
+function previewEmpty(msg){ return `<div class="preview-empty">${msg}<br>✍️</div>`; }
+
+/* =================================================================
+   LES 22 OUTILS
+================================================================= */
+const CATS = {
+  docs:   {ico:'📄', name:'Papye Ofisyèl', sub:'DOCUMENTS OFFICIELS'},
+  contra: {ico:'✍️', name:'Kontra & Lajan', sub:'CONTRATS & FINANCE'},
+  biz:    {ico:'💼', name:'Biznis', sub:'IMAGE & IDENTITÉ'},
+  zouti:  {ico:'🛰️', name:'Zouti & API Live', sub:'OUTILS TEMPS RÉEL'}
+};
+
+const TOOLS = [
+/* ---------- DOCUMENTS ---------- */
+{id:'cv', cat:'docs', icon:'📄', title:'Création de CV', sub:'CV professionnel prêt à imprimer',
+ form: f('nom','Nom complet','Ex: Jean-Baptiste Pierre') + f('titre','Titre professionnel','Ex: Comptable') +
+       f('tel','Téléphone','+509 …') + f('email','Email') + f('ville','Adresse / Ville') +
+       ta('profil','Profil','Résumé de votre parcours en 2-3 phrases…',2) +
+       ta('exp','Expériences (1 ligne chacune)','Poste | Entreprise | Années',3) +
+       ta('form','Formations','Diplôme | École | Année',2) + f('comp','Compétences (séparées par des virgules)','Excel, gestion de stock…') +
+       f('lang','Langues','Créole, Français, Anglais'),
+ build(v){
+   const exp = lines(v.exp).map(l=>`<div class="exp"><b>${esc(l[0]||'')}</b> — ${esc(l[1]||'')} <i>(${esc(l[2]||'')})</i></div>`).join('');
+   const frm = lines(v.form).map(l=>`<div class="exp"><b>${esc(l[0]||'')}</b> — ${esc(l[1]||'')} <i>(${esc(l[2]||'')})</i></div>`).join('');
+   const chips = String(v.comp||'').split(',').map(s=>s.trim()).filter(Boolean).map(s=>`<span style="display:inline-block;border:1.5px solid #182048;padding:.1rem .5rem;margin:.15rem .2rem .15rem 0;font-size:.75rem">${esc(s)}</span>`).join('');
+   return sheetHTML('Curriculum Vitæ', `
+     <div style="text-align:center; margin-bottom:.8rem">
+       <div style="font-family:Arial,Helvetica,sans-serif;font-size:2rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase">${esc(v.nom)||'Votre Nom'}</div>
+       <div style="letter-spacing:.25em;text-transform:uppercase;font-size:.8rem;color:#0026E0;font-weight:700">${esc(v.titre)}</div>
+       <div class="contact-line">📞 ${esc(v.tel)} · ✉️ ${esc(v.email)} · 📍 ${esc(v.ville)}</div>
+     </div>
+     ${v.profil?`<h2 class="sec">Profil</h2><p class="justify">${esc(v.profil)}</p>`:''}
+     ${exp?`<h2 class="sec">Expériences professionnelles</h2>${exp}`:''}
+     ${frm?`<h2 class="sec">Formation</h2>${frm}`:''}
+     ${chips?`<h2 class="sec">Compétences</h2>${chips}`:''}
+     ${v.lang?`<h2 class="sec">Langues</h2><p>${esc(v.lang)}</p>`:''}`);
+ }, fname:'CV'},
+
+{id:'lettre', cat:'docs', icon:'💌', title:'Lettre de motivation', sub:'Candidature soignée et structurée',
+ form: f('nom','Votre nom') + f('adr','Votre adresse & téléphone') + f('ent','Entreprise destinataire') +
+       f('ville','Ville de l’entreprise') + f('poste','Poste visé') +
+       ta('motiv','Vos atouts / motivations','Ce que vous apportez à l’entreprise…',4),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Lettre de Motivation', `
+     <p><b>${esc(v.nom)}</b><br>${esc(v.adr)}</p>
+     <p class="right">${esc(v.ent)}<br>${esc(v.ville)}, le ${d}</p>
+     <p><b>Objet :</b> Candidature au poste de ${esc(v.poste)||'…'}</p>
+     <p>Madame, Monsieur,</p>
+     <p class="justify">Actuellement à la recherche d’une opportunité professionnelle, je me permets de vous soumettre ma candidature au poste de <b>${esc(v.poste)||'…'}</b> au sein de votre entreprise ${esc(v.ent)||''}. Votre réputation et la qualité de vos activités correspondent pleinement au cadre dans lequel je souhaite évoluer.</p>
+     <p class="justify">${esc(v.motiv)||'Sérieux(se), motivé(e) et disponible immédiatement, je suis prêt(e) à m’investir pleinement pour contribuer aux résultats de votre équipe.'}</p>
+     <p class="justify">Je me tiens à votre entière disposition pour un entretien afin de vous exposer plus en détail mes motivations.</p>
+     <p>Dans l’attente d’une suite favorable, veuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.</p>
+     <div class="sig"><div></div><div class="line">${esc(v.nom)||'Signature'}</div></div>`);
+ }, fname:'Lettre_de_motivation'},
+
+{id:'demande', cat:'docs', icon:'🙋', title:'Demande d’emploi', sub:'Lettre de demande simple et directe',
+ form: f('nom','Votre nom') + f('adr','Adresse & téléphone') + f('ent','Entreprise') + f('poste','Poste demandé'),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Demande d’Emploi', `
+     <p><b>${esc(v.nom)}</b><br>${esc(v.adr)}</p>
+     <p class="right">À la direction de ${esc(v.ent)||'…'}<br>Le ${d}</p>
+     <p><b>Objet :</b> Demande d’emploi</p>
+     <p>Madame, Monsieur,</p>
+     <p class="justify">J’ai l’honneur de venir très respectueusement auprès de votre bienveillance solliciter un emploi en qualité de <b>${esc(v.poste)||'…'}</b> au sein de votre institution.</p>
+     <p class="justify">Travailleur(se), discipliné(e) et désireux(se) d’apprendre, je m’engage à accomplir avec sérieux toutes les tâches qui me seront confiées.</p>
+     <p>Dans l’espoir que ma demande retiendra votre attention, je vous prie d’agréer, Madame, Monsieur, mes salutations respectueuses.</p>
+     <div class="sig"><div></div><div class="line">${esc(v.nom)||'Signature'}</div></div>`);
+ }, fname:'Demande_emploi'},
+
+{id:'demission', cat:'docs', icon:'👋', title:'Lettre de démission', sub:'Avec préavis, ton professionnel',
+ form: f('nom','Votre nom') + f('ent','Entreprise') + f('poste','Poste occupé') + sel('preavis','Préavis',['15 jours','1 mois','2 mois','3 mois']),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Lettre de Démission', `
+     <p class="right">Le ${d}</p>
+     <p><b>À la direction de ${esc(v.ent)||'…'}</b></p>
+     <p><b>Objet :</b> Démission</p>
+     <p>Madame, Monsieur,</p>
+     <p class="justify">Par la présente, je vous informe de ma décision de démissionner de mon poste de <b>${esc(v.poste)||'…'}</b> que j’occupe au sein de votre entreprise.</p>
+     <p class="justify">Conformément aux usages, je respecterai un préavis de <b>${esc(v.preavis)}</b>. Mon dernier jour de travail sera donc fixé en conséquence.</p>
+     <p class="justify">Je vous remercie pour les opportunités qui m’ont été offertes durant cette collaboration et vous prie d’agréer, Madame, Monsieur, mes salutations distinguées.</p>
+     <div class="sig"><div></div><div class="line">${esc(v.nom)||'Signature'}</div></div>`);
+ }, fname:'Lettre_demission'},
+
+{id:'certificat', cat:'docs', icon:'🎖️', title:'Certificat de travail', sub:'Attestation d’emploi par l’employeur',
+ form: f('emp','Nom de l’employeur / entreprise') + f('adr','Adresse de l’entreprise') + f('emp2','Nom de l’employé(e)') +
+       f('poste','Poste occupé') + f('depuis','Employé(e) depuis le','Ex: 12 mars 2022'),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Certificat de Travail', `
+     <p>Je soussigné(e), <b>${esc(v.emp)||'…'}</b>, agissant en qualité de responsable de <b>${esc(v.emp)||'l’entreprise'}</b>, sise à ${esc(v.adr)||'…'}, certifie que :</p>
+     <p style="text-align:center; font-size:1.05rem; margin:.9rem 0"><b>${esc(v.emp2)||'M./Mme …'}</b></p>
+     <p class="justify">est employé(e) au sein de notre structure en qualité de <b>${esc(v.poste)||'…'}</b> depuis le <b>${esc(v.depuis)||'…'}</b> et y exerce ses fonctions avec sérieux, compétence et dévouement.</p>
+     <p class="justify">Le présent certificat lui est délivré pour servir et valoir ce que de droit.</p>
+     <p class="right">Fait le ${d}</p>
+     <div class="sig"><div></div><div class="line">${esc(v.emp)||'Signature de l’employeur'}</div></div>`);
+ }, fname:'Certificat_travail'},
+
+{id:'attestation', cat:'docs', icon:'📜', title:'Attestation', sub:'Bonne conduite, service rendu, etc.',
+ form: sel('type','Type d’attestation',['de bonne conduite','de service rendu','d’hébergement']) +
+       f('sig1','Nom du signataire') + f('qual','Qualité / fonction','Ex: Directeur, propriétaire…') +
+       f('bene','Nom du bénéficiaire') + ta('obj','Objet précis de l’attestation','Détails…',2),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Attestation', `
+     <p>Je soussigné(e), <b>${esc(v.sig1)||'…'}</b>, ${esc(v.qual)||'…'}, atteste par la présente que :</p>
+     <p style="text-align:center; font-size:1.05rem; margin:.9rem 0"><b>${esc(v.bene)||'…'}</b></p>
+     <p class="justify">${esc(v.obj)||`a fait preuve d’une conduite irréprochable et remplit toutes les conditions requises au titre de l’attestation ${esc(v.type)}.`}</p>
+     <p class="justify">Cette attestation <b>${esc(v.type)}</b> est délivrée à l’intéressé(e) pour servir et valoir ce que de droit.</p>
+     <p class="right">Fait le ${d}</p>
+     <div class="sig"><div></div><div class="line">${esc(v.sig1)||'Signature'}</div></div>`);
+ }, fname:'Attestation'},
+
+{id:'convocation', cat:'docs', icon:'📢', title:'Convocation', sub:'Convocation officielle d’un employé',
+ form: f('ent','Entreprise') + f('emp2','Nom du salarié') + f('obj','Objet','Ex: entretien préalable') +
+       f('date','Date et heure','Ex: 15 mai 2025 à 10h') + f('lieu','Lieu'),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Convocation', `
+     <p class="right">${esc(v.ent)||'Entreprise'}<br>Le ${d}</p>
+     <p><b>À :</b> ${esc(v.emp2)||'…'}</p>
+     <p><b>Objet :</b> Convocation</p>
+     <p class="justify">Par la présente, nous vous convoquons à vous présenter le <b>${esc(v.date)||'…'}</b> à <b>${esc(v.lieu)||'…'}</b>, pour le motif suivant : <b>${esc(v.obj)||'…'}</b>.</p>
+     <p class="justify">Votre présence est obligatoire. En cas d’empêchement, merci d’en informer la direction dans les plus brefs délais.</p>
+     <div class="sig"><div class="line">${esc(v.emp2)||'Signature du salarié'}</div><div class="line">Signature de la direction</div></div>`);
+ }, fname:'Convocation'},
+
+{id:'procuration', cat:'docs', icon:'🤝', title:'Procuration', sub:'Mandat officiel entre deux personnes',
+ form: f('m1','Nom du mandant (qui donne pouvoir)') + f('cin1','CIN / adresse du mandant') +
+       f('m2','Nom du mandataire (qui reçoit)') + f('cin2','CIN / adresse du mandataire') +
+       ta('obj','Objet du mandat','Ex: retirer un colis, signer un document…',2),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Procuration', `
+     <p class="justify">Je soussigné(e), <b>${esc(v.m1)||'…'}</b> (${esc(v.cin1)||'…'}), donne par la présente procuration à :</p>
+     <p style="text-align:center; font-size:1.05rem; margin:.8rem 0"><b>${esc(v.m2)||'…'}</b><br><small>(${esc(v.cin2)||'…'})</small></p>
+     <p class="justify">À l’effet de, en mon nom et pour mon compte : <b>${esc(v.obj)||'…'}</b>.</p>
+     <p class="justify">Le mandataire est autorisé à signer tous documents et accomplir toutes démarches nécessaires à l’exécution du présent mandat.</p>
+     <p class="justify">La présente procuration est délivrée pour servir et valoir ce que de droit.</p>
+     <p class="right">Fait le ${d}</p>
+     <div class="sig"><div class="line">Le mandant — ${esc(v.m1)||''}</div><div class="line">Le mandataire — ${esc(v.m2)||''}</div></div>`);
+ }, fname:'Procuration'},
+
+/* ---------- CONTRATS & FINANCE ---------- */
+{id:'contrat-travail', cat:'contra', icon:'📋', title:'Contrat de travail', sub:'CDI / CDD complet avec articles',
+ form: f('emp','Employeur (nom / entreprise)') + f('adr','Adresse de l’employeur') + f('emp2','Nom de l’employé(e)') +
+       f('cin','CIN / adresse de l’employé(e)') + f('poste','Poste / fonction') +
+       sel('duree','Type de contrat',['CDD','CDI']) + f('salaire','Salaire mensuel (G)','Ex: 25000') +
+       f('debut','Date de début') + f('lieu','Lieu de travail'),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR'); const sal = parseFloat(v.salaire)||0;
+   return sheetHTML('Contrat de Travail', `
+     <p class="justify"><b>Entre les soussignés :</b> ${esc(v.emp)||'…'}, sis à ${esc(v.adr)||'…'}, ci-après dénommé « l’Employeur », d’une part ;</p>
+     <p class="justify"><b>Et :</b> ${esc(v.emp2)||'…'}, ${esc(v.cin)||''}, ci-après dénommé(e) « l’Employé(e) », d’autre part ;</p>
+     <p class="justify">Il a été convenu et arrêté ce qui suit :</p>
+     <h2 class="sec">Article 1 — Engagement</h2>
+     <p class="justify">L’Employeur engage l’Employé(e) en qualité de <b>${esc(v.poste)||'…'}</b> à compter du <b>${esc(v.debut)||d}</b>, au lieu de travail situé à ${esc(v.lieu)||'…'}.</p>
+     <h2 class="sec">Article 2 — Durée</h2>
+     <p class="justify">Le présent contrat est conclu pour une durée <b>${esc(v.duree)}${v.duree==='CDD'?' d’un an renouvelable':' indéterminée'}</b>.</p>
+     <h2 class="sec">Article 3 — Rémunération</h2>
+     <p class="justify">L’Employé(e) percevra un salaire mensuel de <b>${money(sal)}</b> (${numFr(sal)} gourdes), payable à la fin de chaque mois.</p>
+     <h2 class="sec">Article 4 — Obligations</h2>
+     <p class="justify">L’Employé(e) s’engage à accomplir ses fonctions avec diligence, à respecter le règlement interne et à garder la confidentialité des informations de l’entreprise.</p>
+     <h2 class="sec">Article 5 — Résiliation</h2>
+     <p class="justify">Chaque partie peut résilier le présent contrat conformément au Code du travail haïtien, moyennant préavis ou indemnité en tenant lieu.</p>
+     <p class="justify">Fait en deux exemplaires, le ${d}.</p>
+     <div class="sig"><div class="line">L’Employeur</div><div class="line">L’Employé(e)</div></div>`);
+ }, fname:'Contrat_travail'},
+
+{id:'contrat-location', cat:'contra', icon:'🏠', title:'Contrat de location', sub:'Bail d’habitation clair et complet',
+ form: f('bail','Nom du bailleur') + f('loc','Nom du locataire') + f('adr','Adresse du logement') +
+       f('loyer','Loyer mensuel (G)','Ex: 15000') + f('duree','Durée du bail','Ex: 12 mois') + f('depot','Dépôt de garantie (G)','Ex: 30000'),
+ build(v){ const d = new Date().toLocaleDateString('fr-FR'); const loy=parseFloat(v.loyer)||0, dep=parseFloat(v.depot)||0;
+   return sheetHTML('Contrat de Location', `
+     <p class="justify"><b>Entre :</b> ${esc(v.bail)||'…'}, ci-après « le Bailleur », et ${esc(v.loc)||'…'}, ci-après « le Locataire ».</p>
+     <h2 class="sec">Article 1 — Objet</h2>
+     <p class="justify">Le Bailleur donne en location au Locataire le logement situé à <b>${esc(v.adr)||'…'}</b>, que ce dernier accepte en l’état.</p>
+     <h2 class="sec">Article 2 — Durée</h2>
+     <p class="justify">Le bail est consenti pour une durée de <b>${esc(v.duree)||'…'}</b> à compter de la signature des présentes, renouvelable par accord des parties.</p>
+     <h2 class="sec">Article 3 — Loyer</h2>
+     <p class="justify">Le loyer mensuel est fixé à <b>${money(loy)}</b> (${numFr(loy)} gourdes), payable d’avance au plus tard le 5 de chaque mois.</p>
+     <h2 class="sec">Article 4 — Dépôt de garantie</h2>
+     <p class="justify">Un dépôt de <b>${money(dep)}</b> (${numFr(dep)} gourdes) est versé à la signature. Il sera restitué à la fin du bail, déduction faite des éventuels dégâts.</p>
+     <h2 class="sec">Article 5 — Obligations</h2>
+     <p class="justify">Le Locataire entretient les lieux, ne peut sous-louer sans accord écrit et jouit des lieux en bon père de famille.</p>
+     <p class="justify">Fait en deux exemplaires, le ${d}.</p>
+     <div class="sig"><div class="line">Le Bailleur</div><div class="line">Le Locataire</div></div>`);
+ }, fname:'Contrat_location'},
+
+{id:'facture', cat:'contra', icon:'🧾', title:'Facture', sub:'Tableau, total & montant en lettres',
+ form: f('em','Émetteur (votre nom / entreprise)') + f('cli','Client') + f('nf','Nº de facture','F-2025-001') +
+       ta('lignes','Lignes — une par ligne : Désignation | Qté | Prix unitaire','Création de CV | 1 | 500\nImpression | 2 | 250',5) +
+       ta('note','Note (facultatif)','Conditions de paiement…',2),
+ build(v){ const rows = lines(v.lignes); let total=0;
+   const trs = rows.map(l=>{ const q=parseFloat(l[1])||1, pu=parseFloat(l[2])||0, t=q*pu; total+=t;
+     return `<tr><td>${esc(l[0])}</td><td class="right">${q}</td><td class="right">${money(pu)}</td><td class="right">${money(t)}</td></tr>`; }).join('');
+   return sheetHTML('Facture', `
+     <p><b>Nº :</b> ${esc(v.nf)||'—'} &nbsp;·&nbsp; <b>Date :</b> ${new Date().toLocaleDateString('fr-FR')}</p>
+     <p><b>Émetteur :</b> ${esc(v.em)||'…'}<br><b>Client :</b> ${esc(v.cli)||'…'}</p>
+     <table><thead><tr><th>Désignation</th><th>Qté</th><th>P.U.</th><th>Montant</th></tr></thead>
+     <tbody>${trs || '<tr><td colspan="4">Aucune ligne</td></tr>'}<tr class="tot"><td colspan="3" class="right">TOTAL</td><td class="right">${money(total)}</td></tr></tbody></table>
+     <p class="justify"><i>Arrêtée la présente facture à la somme de <b>${numFr(total)} gourdes</b>.</i></p>
+     ${v.note?`<p><b>Note :</b> ${esc(v.note)}</p>`:''}
+     <div class="sig"><div></div><div class="line">Signature de l’émetteur</div></div>`);
+ }, fname:'Facture'},
+
+{id:'devis', cat:'contra', icon:'🧮', title:'Devis', sub:'Estimation chiffrée professionnelle',
+ form: f('em','Votre nom / entreprise') + f('cli','Client') + f('valid','Validité du devis','Ex: 15 jours') +
+       ta('lignes','Lignes — Désignation | Qté | Prix unitaire','Service A | 1 | 1500',5),
+ build(v){ const rows = lines(v.lignes); let total=0;
+   const trs = rows.map(l=>{ const q=parseFloat(l[1])||1, pu=parseFloat(l[2])||0, t=q*pu; total+=t;
+     return `<tr><td>${esc(l[0])}</td><td class="right">${q}</td><td class="right">${money(pu)}</td><td class="right">${money(t)}</td></tr>`; }).join('');
+   return sheetHTML('Devis', `
+     <p><b>Date :</b> ${new Date().toLocaleDateString('fr-FR')} · <b>Validité :</b> ${esc(v.valid)||'—'}</p>
+     <p><b>Prestataire :</b> ${esc(v.em)||'…'}<br><b>Client :</b> ${esc(v.cli)||'…'}</p>
+     <table><thead><tr><th>Désignation</th><th>Qté</th><th>P.U.</th><th>Montant</th></tr></thead>
+     <tbody>${trs || '<tr><td colspan="4">Aucune ligne</td></tr>'}<tr class="tot"><td colspan="3" class="right">TOTAL ESTIMÉ</td><td class="right">${money(total)}</td></tr></tbody></table>
+     <p class="justify"><i>Devis arrêté à la somme de <b>${numFr(total)} gourdes</b>.</i></p>
+     <div class="sig"><div class="line">Bon pour accord (client)</div><div class="line">Le prestataire</div></div>`);
+ }, fname:'Devis'},
+
+{id:'recu', cat:'contra', icon:'🧾', title:'Reçu de paiement', sub:'Avec montant écrit en lettres',
+ form: f('rec','Je soussigné(e) (nom de qui reçoit)') + f('de','Reçu de (nom du payeur)') +
+       f('mont','Montant (G)','Ex: 500') + f('motif','Motif du paiement') +
+       sel('mode','Mode de paiement',['MonCash','NatCash','Cash','Transfert bancaire']),
+ build(v){ const m = parseFloat(v.mont)||0; const d = new Date().toLocaleDateString('fr-FR');
+   return sheetHTML('Reçu de Paiement', `
+     <p style="text-align:center; font-family:Arial;font-size:1.6rem;font-weight:800; letter-spacing:.15em; margin:.6rem 0">REÇU — ${money(m)}</p>
+     <p class="justify">Je soussigné(e), <b>${esc(v.rec)||'…'}</b>, reconnais avoir reçu de <b>${esc(v.de)||'…'}</b> la somme de <b>${money(m)}</b> (<i>${numFr(m)} gourdes</i>), pour : <b>${esc(v.motif)||'…'}</b>.</p>
+     <p><b>Mode de paiement :</b> ${esc(v.mode)}</p>
+     <p><b>Date :</b> ${d}</p>
+     <p class="justify">Ce reçu est délivré pour servir et valoir ce que de droit.</p>
+     <div class="sig"><div></div><div class="line">Signature — ${esc(v.rec)||''}</div></div>`);
+ }, fname:'Recu'},
+
+/* ---------- BUSINESS ---------- */
+{id:'carte', cat:'biz', icon:'💳', title:'Carte de visite', sub:'Aperçu recto-verso + impression', custom:'carte'},
+{id:'photo', cat:'biz', icon:'🪪', title:'Photo d’identité', sub:'Format officiel 35×45 mm, PNG HD', custom:'photo'},
+{id:'qr', cat:'biz', icon:'🔳', title:'Générateur QR Code', sub:'API publique — lien, texte, WhatsApp', custom:'qr'},
+
+/* ---------- ZOUTI & API ---------- */
+{id:'meteo', cat:'zouti', icon:'🌤️', title:'Météo Haïti', sub:'API open-meteo · 5 villes en direct', custom:'meteo'},
+{id:'change', cat:'zouti', icon:'💱', title:'Taux de change', sub:'API live · USD / HTG / EUR / DOP', custom:'change'},
+{id:'citation', cat:'zouti', icon:'💡', title:'Citation du jour', sub:'API citations · motivation quotidienne', custom:'citation'},
+{id:'salaire', cat:'zouti', icon:'🧮', title:'Calculateur de salaire', sub:'Horaire ⇄ mensuel ⇄ annuel', custom:'salaire'},
+{id:'conseil', cat:'zouti', icon:'🎓', title:'Conseils carrière', sub:'Astuces CV, entretien & emploi', custom:'conseil'},
+{id:'ip', cat:'zouti', icon:'🌍', title:'Ma connexion', sub:'API ipapi · IP & localisation', custom:'ip'}
+];
+
+/* =================================================================
+   RENDU DES TUILES
+================================================================= */
+(function renderTiles(){
+  const wrap = $('#tilesWrap');
+  Object.keys(CATS).forEach(key=>{
+    const c = CATS[key];
+    const tools = TOOLS.filter(t=>t.cat===key);
+    const block = document.createElement('div');
+    block.className = 'cat rev';
+    block.innerHTML = `<div class="cat-bar">${c.ico} ${c.name} <em>${c.sub}</em></div>
+      <div class="tiles">${tools.map(t=>{
+        const num = String(TOOLS.indexOf(t)+1).padStart(2,'0');
+        return `<button class="tile" data-tool="${t.id}" aria-label="${esc(t.title)}">
+          <span class="num">${num}</span><span class="ico">${t.icon}</span>
+          <h3>${esc(t.title)}</h3><p>${esc(t.sub)}</p>
+          <span class="lock">${unlocked?'✓ PRÊT':'🔒 500 G'}</span>
+        </button>`;
+      }).join('')}</div>`;
+    wrap.appendChild(block);
+  });
+})();
+
+/* =================================================================
+   SYSTÈME DE DÉVERROUILLAGE
+================================================================= */
+function applyUnlock(silent){
+  document.body.classList.add('unlocked');
+  $$('.tile .lock').forEach(l=>l.textContent='✓ PRÊT');
+  $('#navLock').textContent = '✅ DÉBLOQUÉ';
+  $('#heroUnlock').textContent = '✅ Services débloqués — accéder';
+  $('#svcUnlock').textContent = '✅ Accès actif — cliquez sur un outil';
+  if(!silent) toast('Mot de passe accepté — les 22 services sont débloqués !','🔓');
+}
+if(unlocked) applyUnlock(true);
+
+function openUnlock(){
+  $('#mIco').textContent='🔐'; $('#mTitle').textContent='Déverrouillage du site';
+  $('#mBody').innerHTML = `
+    <div class="unlock-box">
+      <span class="u-lock">🔒</span>
+      <h3>Mot de passe requis</h3>
+      <p>Tous ces services sont disponibles <b>à partir de 500 gourdes</b>. Après paiement,
+      vous obtenez le mot de passe qui sert avec la vingtaine de boutons du site.</p>
+      <div class="pw-row">
+        <input id="pwInput" placeholder="••••••••" autocomplete="off" aria-label="Mot de passe">
+        <button class="btn btn-yellow" id="pwBtn">Valider</button>
+      </div>
+      <div class="u-err" id="pwErr"></div>
+      <a class="btn btn-green btn-sm" href="${WA_LINK}" target="_blank" rel="noopener">💬 Payer 500 G sur WhatsApp</a>
+      <div class="u-pay"><span>MONCASH</span><span>NATCASH</span><span>CASH</span></div>
+    </div>`;
+  openModal();
+  const inp = $('#pwInput');
+  setTimeout(()=>inp.focus(), 120);
+  const tryPw = ()=>{
+    const v = inp.value.trim().toUpperCase();
+    if(v === PASSWORD){
+      unlocked = true; localStorage.setItem('lakay_unlock','1');
+      closeModal(); applyUnlock(false); confetti();
+    }else{
+      $('#pwErr').textContent = '❌ Mot de passe incorrect. Payez 500 G pour le recevoir.';
+      inp.classList.remove('shake-it'); void inp.offsetWidth; inp.classList.add('shake-it');
+      inp.value='';
+    }
+  };
+  $('#pwBtn').addEventListener('click', tryPw);
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter') tryPw(); });
+}
+$('#heroUnlock').addEventListener('click', ()=> unlocked ? document.getElementById('services').scrollIntoView({behavior:'smooth'}) : openUnlock());
+$('#svcUnlock').addEventListener('click', ()=> unlocked ? toast('Tout est déjà débloqué — choisissez un outil !','✨') : openUnlock());
+
+function confetti(){
+  const colors = ['#0026E0','#E6203C','#FFC93C','#ffffff','#17A34A'];
+  for(let i=0;i<90;i++){
+    const d = document.createElement('div');
+    d.className = 'cf';
+    d.style.background = colors[i%colors.length];
+    d.style.left = (35+Math.random()*30)+'vw'; d.style.top = '18vh';
+    document.body.appendChild(d);
+    d.animate([
+      {transform:'translate(0,0) rotate(0deg)', opacity:1},
+      {transform:`translate(${(Math.random()-.5)*60}vw, ${70+Math.random()*30}vh) rotate(${Math.random()*720}deg)`, opacity:0}
+    ], {duration:1300+Math.random()*900, easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish = ()=>d.remove();
+  }
+}
+
+/* =================================================================
+   MODALE GÉNÉRIQUE
+================================================================= */
+function openModal(){ $('#modal').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(){ $('#modal').classList.remove('open'); document.body.style.overflow=''; }
+$('#mClose').addEventListener('click', closeModal);
+$('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+function getVals(panel){
+  const v = {};
+  panel.querySelectorAll('input[id^="f_"],textarea[id^="f_"],select[id^="f_"]').forEach(el=>{
+    v[el.id.slice(2)] = el.value;
+  });
+  return v;
+}
+
+/* =================================================================
+   OUVERTURE D'UN OUTIL
+================================================================= */
+document.getElementById('tilesWrap').addEventListener('click', e=>{
+  const tile = e.target.closest('.tile'); if(!tile) return;
+  if(!unlocked){
+    tile.classList.remove('shake'); void tile.offsetWidth; tile.classList.add('shake');
+    toast('Service verrouillé — le mot de passe (500 G) est requis','🔒');
+    setTimeout(openUnlock, 350);
+    return;
+  }
+  const tool = TOOLS.find(t=>t.id===tile.dataset.tool);
+  if(!tool) return;
+  $('#mIco').textContent = tool.icon; $('#mTitle').textContent = tool.title;
+  if(tool.custom){ CUSTOM[tool.custom](); openModal(); return; }
+  /* outil document */
+  $('#mBody').innerHTML = `
+    <div class="tool-grid">
+      <div class="tform"><h4>✍️ Informations</h4>${tool.form}
+        <div class="hint">💡 Astuce : remplissez puis cliquez « Générer ». Les champs vides seront ignorés.</div>
+      </div>
+      <div>
+        <div class="preview" id="docContent">${previewEmpty('L’aperçu de votre document<br>apparaîtra ici')}</div>
+        <div class="actions">
+          <button class="btn btn-yellow btn-sm" id="genBtn">⚙️ Générer</button>
+          <button class="btn btn-blue btn-sm" id="printBtn">🖨️ Imprimer / PDF</button>
+          <button class="btn btn-sm" id="dlBtn">📥 Télécharger (.doc)</button>
+          <button class="btn btn-ghost btn-sm" id="cpBtn">📋 Copier</button>
+        </div>
+      </div>
+    </div>`;
+  const panel = $('#mBody');
+  $('#genBtn').addEventListener('click', ()=>{
+    $('#docContent').innerHTML = tool.build(getVals(panel));
+    toast('Document généré — prêt à imprimer','📄');
+  });
+  $('#printBtn').addEventListener('click', ()=>printDoc(tool.fname));
+  $('#dlBtn').addEventListener('click', ()=>downloadDoc(tool.fname));
+  $('#cpBtn').addEventListener('click', copyDoc);
+  openModal();
+});
+
+/* =================================================================
+   OUTILS CUSTOM (API & INTERACTIFS)
+================================================================= */
+const CUSTOM = {
+
+/* ---- CARTE DE VISITE ---- */
+carte(){
+  const pals = [
+    {bg:'#0026E0', fg:'#ffffff', acc:'#FFC93C'},
+    {bg:'#F6F1E7', fg:'#10153F', acc:'#E6203C'},
+    {bg:'#10153F', fg:'#ffffff', acc:'#E6203C'},
+    {bg:'#E6203C', fg:'#ffffff', acc:'#FFC93C'}
+  ];
+  let cur = 0;
+  $('#mBody').innerHTML = `
+    <div class="tool-grid">
+      <div class="tform"><h4>💳 Vos infos</h4>
+        ${f('nom','Nom complet')} ${f('tit','Titre / fonction','Ex: Photographe')}
+        ${f('tel','Téléphone','+509 …')} ${f('em','Email')}
+        ${f('web','Site / WhatsApp (facultatif)')} ${f('adr','Adresse (facultatif)')}
+        <span class="fld"><span>Couleur</span></span>
+        <div class="pal-row" id="palRow">${pals.map((p,i)=>`<div class="pal-dot ${i===0?'on':''}" data-i="${i}" style="background:${p.bg}"></div>`).join('')}</div>
+        <button class="btn btn-yellow btn-sm" id="cGen">⚙️ Générer la carte</button>
+        <button class="btn btn-blue btn-sm" id="cPrint">🖨️ Imprimer</button>
+      </div>
+      <div class="preview" id="docContent">${previewEmpty('Votre carte recto-verso<br>apparaîtra ici')}</div>
+    </div>`;
+  const panel = $('#mBody');
+  const render = ()=>{
+    const v = getVals(panel), p = pals[cur];
+    $('#docContent').innerHTML = `
+      <div class="bcard" style="background:${p.bg};color:${p.fg}">
+        <div><div class="bn">${esc(v.nom)||'Votre Nom'}</div><div class="bt" style="color:${p.acc}">${esc(v.tit)||'Fonction'}</div></div>
+        <div class="bc">📞 ${esc(v.tel)||'—'}<br>✉️ ${esc(v.em)||'—'}${v.web?`<br>🌐 ${esc(v.web)}`:''}${v.adr?`<br>📍 ${esc(v.adr)}`:''}</div>
+      </div>
+      <div class="bcard bcard-back" style="background:${p.bg};color:${p.fg}">
+        <div class="logo" style="color:${p.acc}">${esc((v.nom||'LS').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</div>
+        <div class="bt">${esc(v.nom)||''}</div>
+        <div class="bc">${esc(v.tel)||''}</div>
+      </div>`;
+  };
+  $('#cGen').addEventListener('click', ()=>{ render(); toast('Carte générée','💳'); });
+  $('#cPrint').addEventListener('click', ()=>printDoc('Carte_de_visite'));
+  $('#palRow').addEventListener('click', e=>{
+    const d = e.target.closest('.pal-dot'); if(!d) return;
+    cur = +d.dataset.i;
+    $$('.pal-dot').forEach(x=>x.classList.remove('on')); d.classList.add('on');
+    if($('#docContent .bcard')) render();
+  });
+},
+
+/* ---- PHOTO D'IDENTITÉ (canvas) ---- */
+photo(){
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <div class="photo-stage">
+        <div>
+          <label class="btn btn-yellow btn-sm" style="cursor:pointer">📤 Choisir une photo
+            <input type="file" id="phFile" accept="image/*" hidden></label>
+          <div style="margin-top:1rem" class="fld"><span>Zoom</span><input type="range" id="phZoom" min="1" max="3" step="0.05" value="1.15"></div>
+          <div class="fld"><span>Position verticale</span><input type="range" id="phY" min="-200" max="200" step="5" value="0"></div>
+          <button class="btn btn-green btn-sm" id="phDl" disabled>📥 Télécharger PNG (300 dpi)</button>
+          <div class="hint" style="margin-top:.7rem;font-size:.75rem;opacity:.7">Format officiel 35×45 mm — fond blanc généré automatiquement. Placez le visage dans le cadre.</div>
+        </div>
+        <canvas id="photoCv" width="413" height="531"></canvas>
+      </div>
+    </div>`;
+  const cv = $('#photoCv'), ctx = cv.getContext('2d');
+  let img = null;
+  const draw = ()=>{
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,413,531);
+    if(img){
+      const zoom=+$('#phZoom').value, oy=+$('#phY').value;
+      const ir=img.width/img.height, br=413/531;
+      let dw,dh;
+      if(ir>br){ dh=531*zoom; dw=dh*ir; } else { dw=413*zoom; dh=dw/ir; }
+      ctx.drawImage(img,(413-dw)/2,(531-dh)*0.22+oy,dw,dh);
+    }else{
+      ctx.fillStyle='#c9c4b4'; ctx.font='18px Space Grotesk'; ctx.textAlign='center';
+      ctx.fillText('Choisissez une photo ↑', 206, 265);
+    }
+    ctx.strokeStyle='#10153F'; ctx.lineWidth=3;
+    ctx.strokeRect(20,20,373,491);
+    ctx.strokeStyle='rgba(16,21,63,.25)';
+    ctx.beginPath(); ctx.moveTo(20,190); ctx.lineTo(393,190); ctx.stroke();
+  };
+  draw();
+  $('#phFile').addEventListener('change', e=>{
+    const file=e.target.files[0]; if(!file) return;
+    const rd=new FileReader();
+    rd.onload=ev=>{ img=new Image(); img.onload=()=>{ draw(); $('#phDl').disabled=false; toast('Photo chargée — ajustez le cadrage','🪪'); }; img.src=ev.target.result; };
+    rd.readAsDataURL(file);
+  });
+  $('#phZoom').addEventListener('input', draw);
+  $('#phY').addEventListener('input', draw);
+  $('#phDl').addEventListener('click', ()=>{
+    const a=document.createElement('a'); a.download='photo-identite-35x45.png';
+    a.href=cv.toDataURL('image/png'); a.click(); toast('Photo téléchargée','📥');
+  });
+},
+
+/* ---- QR CODE (API qrserver) ---- */
+qr(){
+  $('#mBody').innerHTML = `
+    <div class="tool-grid">
+      <div class="tform"><h4>🔳 Contenu du QR</h4>
+        ${sel('type','Type',['Lien / URL','Texte libre','WhatsApp'])}
+        ${ta('val','Contenu','https:// … ou votre texte',3)}
+        ${sel('size','Taille',['200','300','500'])}
+        <div class="hint">Pour WhatsApp : entrez le numéro complet (ex: 50912345678), le lien wa.me est créé automatiquement.</div>
+        <button class="btn btn-yellow btn-sm" id="qGen">⚙️ Générer le QR</button>
+        <a class="btn btn-green btn-sm" id="qOpen" target="_blank" rel="noopener" style="display:none">⬇️ Ouvrir / Télécharger</a>
+      </div>
+      <div class="preview" id="qrPreview">${previewEmpty('Le QR code généré par l’API<br>apparaîtra ici')}</div>
+    </div>`;
+  $('#qGen').addEventListener('click', ()=>{
+    const panel=$('#mBody'); const v=getVals(panel);
+    let data = v.val || '';
+    if(!data.trim()){ toast('Entrez d’abord un contenu','⚠️'); return; }
+    if(v.type==='WhatsApp' && !data.startsWith('http')) data = `https://wa.me/${data.replace(/\D/g,'')}`;
+    const s = v.size || 300;
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=${s}x${s}&margin=8&data=${encodeURIComponent(data.trim())}`;
+    $('#qrPreview').innerHTML = `<div class="qr-frame" style="margin:auto"><img src="${url}" alt="QR code" style="display:block"></div>
+      <p style="text-align:center;font-family:var(--mono);font-size:.7rem;margin-top:.8rem;opacity:.7">${esc(data.slice(0,60))}</p>`;
+    const open=$('#qOpen'); open.href=url; open.style.display='inline-flex';
+    toast('QR code généré via l’API publique','🔳');
+  });
+},
+
+/* ---- MÉTÉO (API open-meteo) ---- */
+async meteo(){
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <label class="fld" style="max-width:260px"><span>Ville</span>
+        <select id="mCity">${CITIES.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join('')}</select></label>
+      <div id="mOut" style="margin-top:1rem"><div class="skel" style="width:60%"></div><div class="skel" style="width:40%"></div></div>
+      <div class="hint" style="margin-top:1rem;font-size:.72rem;opacity:.6">⚡ API publique gratuite : api.open-meteo.com</div>
+    </div>`;
+  const load = async ()=>{
+    const key=$('#mCity').value, city=CITIES.find(c=>c[0]===key);
+    $('#mOut').innerHTML='<div class="skel" style="width:60%"></div><div class="skel" style="width:40%"></div>';
+    try{
+      const w = await fetchWeather(city);
+      $('#mOut').innerHTML = `
+        <div style="display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap">
+          <span style="font-size:4rem">${w.icon}</span>
+          <div><div class="big-metric">${w.temp}°C</div>
+          <div style="font-weight:700">${w.label} — ${w.name}</div></div>
+        </div>
+        <div class="rate-grid">
+          <div class="rate-cell"><b>${w.temp}°C</b><small>Température</small></div>
+          <div class="rate-cell"><b>${w.wind} km/h</b><small>Vent</small></div>
+          <div class="rate-cell"><b>${w.icon}</b><small>${w.label}</small></div>
+        </div>`;
+    }catch(e){ $('#mOut').innerHTML='<p>⚠️ Impossible de charger la météo (connexion internet requise).</p>'; }
+  };
+  $('#mCity').addEventListener('change', load);
+  load();
+},
+
+/* ---- TAUX DE CHANGE (API open.er-api) ---- */
+async change(){
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+        <label class="fld" style="flex:1;min-width:140px"><span>Montant en USD ($)</span><input id="cUsd" type="number" value="100"></label>
+        <span style="font-size:1.6rem">⇄</span>
+        <label class="fld" style="flex:1;min-width:140px"><span>Montant en gourdes (G)</span><input id="cHtg" type="number"></label>
+      </div>
+      <div id="cRate" style="margin-top:1rem"><div class="skel" style="width:50%"></div></div>
+      <div class="rate-grid" id="cGrid"></div>
+      <div class="hint" style="margin-top:1rem;font-size:.72rem;opacity:.6">⚡ API publique gratuite : open.er-api.com — taux actualisés quotidiennement</div>
+    </div>`;
+  let rate = null;
+  const apply = ()=>{
+    if(!rate) return;
+    const usd = parseFloat($('#cUsd').value)||0;
+    $('#cHtg').value = (usd*rate).toFixed(0);
+  };
+  const applyR = ()=>{
+    if(!rate) return;
+    const htg = parseFloat($('#cHtg').value)||0;
+    $('#cUsd').value = (htg/rate).toFixed(2);
+  };
+  $('#cUsd').addEventListener('input', apply);
+  $('#cHtg').addEventListener('input', applyR);
+  const rates = window.CACHED_RATES || await fetchRates();
+  if(rates && rates.HTG){
+    rate = rates.HTG;
+    $('#cRate').innerHTML = `<div class="big-metric" style="font-size:2.2rem">1 $ = ${rate.toFixed(2)} G</div>`;
+    [['EUR','Euro'],['DOP','Peso dominicain'],['CAD','Dollar canadien'],['HTG','Gourde haïtienne']].forEach(([c,l])=>{
+      if(rates[c]) $('#cGrid').innerHTML += `<div class="rate-cell"><b>${(+rates[c]).toFixed(2)}</b><small>1 USD = ${c} · ${l}</small></div>`;
+    });
+    apply();
+  }else{
+    $('#cRate').innerHTML='<p>⚠️ Taux indisponible — vérifiez votre connexion internet.</p>';
+  }
+},
+
+/* ---- CITATION (API dummyjson) ---- */
+citation(){
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <div id="qOut"><div class="skel" style="width:80%"></div><div class="skel" style="width:60%"></div></div>
+      <div class="actions"><button class="btn btn-yellow btn-sm" id="qNext">🔄 Une autre citation</button></div>
+      <div class="hint" style="margin-top:.8rem;font-size:.72rem;opacity:.6">⚡ API publique gratuite : dummyjson.com/quotes</div>
+    </div>`;
+  const load = async ()=>{
+    $('#qOut').innerHTML='<div class="skel" style="width:80%"></div><div class="skel" style="width:60%"></div>';
+    try{
+      const r = await fetch('https://dummyjson.com/quotes/random');
+      const d = await r.json();
+      $('#qOut').innerHTML = `<div class="quote-box">« ${esc(d.quote)} »</div><div class="quote-auth">— ${esc(d.author)}</div>`;
+    }catch(e){
+      $('#qOut').innerHTML = `<div class="quote-box">« L’éducation est l’arme la plus puissante qu’on puisse utiliser pour changer le monde. »</div><div class="quote-auth">— Nelson Mandela</div>`;
+      toast('API hors ligne — citation de secours affichée','📶');
+    }
+  };
+  $('#qNext').addEventListener('click', load);
+  load();
+},
+
+/* ---- CALCULATEUR DE SALAIRE ---- */
+salaire(){
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <label class="fld" style="flex:1;min-width:150px"><span>Taux horaire (G)</span><input id="sH" type="number" value="100"></label>
+        <label class="fld" style="flex:1;min-width:150px"><span>Heures / semaine</span><input id="sW" type="number" value="40"></label>
+      </div>
+      <div class="rate-grid" id="sOut"></div>
+    </div>`;
+  const calc = ()=>{
+    const h=parseFloat($('#sH').value)||0, w=parseFloat($('#sW').value)||0;
+    const hebdo=h*w, mens=hebdo*4.33, ann=mens*12;
+    $('#sOut').innerHTML = `
+      <div class="rate-cell"><b>${money(hebdo)}</b><small>Par semaine</small></div>
+      <div class="rate-cell" style="background:var(--yellow)"><b>${money(mens)}</b><small>Par mois</small></div>
+      <div class="rate-cell"><b>${money(ann)}</b><small>Par an</small></div>
+      <div class="rate-cell"><b>${money(mens/2)}</b><small>Quinzaine</small></div>`;
+  };
+  $('#sH').addEventListener('input', calc);
+  $('#sW').addEventListener('input', calc);
+  calc();
+},
+
+/* ---- CONSEILS CARRIÈRE ---- */
+conseil(){
+  const TIPS = [
+    "Un CV tient sur UNE page : allez à l’essentiel, chiffres et résultats d’abord.",
+    "Personnalisez chaque lettre de motivation : citez l’entreprise et le poste exact.",
+    "Avant un entretien, préparez 3 questions à poser au recruteur — cela montre votre intérêt.",
+    "Sur WhatsApp professionnel : photo de profil soignée, message de bienvenue, réponses rapides.",
+    "Gardez une copie de chaque facture et reçu : c’est votre preuve en cas de litige.",
+    "Relisez tout document officiel à voix haute : les fautes sautent aux oreilles.",
+    "Un contrat se signe en DEUX exemplaires : un pour chaque partie.",
+    "Mettez vos compétences en avant avec des exemples concrets, pas seulement des listes.",
+    "Arrivez 10 minutes en avance à un entretien — jamais plus, jamais moins.",
+    "Sur votre carte de visite : moins il y a de texte, plus on la garde.",
+    "Négociez toujours avec des faits : ce que vous avez apporté, en chiffres.",
+    "Sauvegardez vos documents dans 2 endroits : téléphone + email."
+  ];
+  let i = Math.floor(Math.random()*TIPS.length);
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <div class="tip-card" id="tipCard">🎓 ${esc(TIPS[i])}</div>
+      <div class="actions"><button class="btn btn-yellow btn-sm" id="tipNext">🔄 Nouveau conseil</button></div>
+    </div>`;
+  $('#tipNext').addEventListener('click', ()=>{
+    i = (i+1+Math.floor(Math.random()*(TIPS.length-1))) % TIPS.length;
+    const card=$('#tipCard');
+    card.style.transform='translateX(-12px)'; card.style.opacity='0';
+    setTimeout(()=>{ card.textContent='🎓 '+TIPS[i]; card.style.transition='all .3s'; card.style.transform='none'; card.style.opacity='1'; },180);
+  });
+},
+
+/* ---- MA CONNEXION (API ipapi) ---- */
+async ip(){
+  $('#mBody').innerHTML = `
+    <div class="api-panel">
+      <div id="ipOut"><div class="skel" style="width:55%"></div><div class="skel" style="width:35%"></div></div>
+      <div class="hint" style="margin-top:1rem;font-size:.72rem;opacity:.6">⚡ API publique gratuite : ipapi.co (limite quotidienne)</div>
+    </div>`;
+  try{
+    const r = await fetch('https://ipapi.co/json/');
+    const d = await r.json();
+    if(d.error) throw 0;
+    $('#ipOut').innerHTML = `
+      <div class="rate-grid">
+        <div class="rate-cell" style="grid-column:1/-1"><b style="font-size:.95rem">${esc(d.ip)}</b><small>Votre adresse IP</small></div>
+        <div class="rate-cell"><b>${esc(d.city||'—')}</b><small>Ville</small></div>
+        <div class="rate-cell"><b>${esc(d.country_name||'—')}</b><small>Pays</small></div>
+        <div class="rate-cell"><b>${esc(d.org||'—')}</b><small>Fournisseur</small></div>
+      </div>`;
+  }catch(e){
+    $('#ipOut').innerHTML = '<p>⚠️ Information indisponible pour le moment (limite de l’API atteinte). Réessayez plus tard.</p>';
+  }
+}
+};
+
+/* =================================================================
+   SCROLL REVEAL
+================================================================= */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+$$('.rev').forEach(el=>io.observe(el));
+
+/* tuiles : apparition décalée */
+const ioTiles = new IntersectionObserver(es=>{
+  es.forEach((e)=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.tile').forEach((t,i)=>{
+        t.classList.add('pop'); t.style.animationDelay = (i*45)+'ms';
+      });
+      ioTiles.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+$$('.cat').forEach(c=>ioTiles.observe(c));
+</script>
+</body>
+</html>
